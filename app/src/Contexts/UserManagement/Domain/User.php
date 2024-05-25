@@ -9,6 +9,7 @@ use App\Contexts\UserManagement\Domain\Exception\InvalidEmailException;
 
 
 # Domain UserEntity. 
+# Basic logic like field validation is allowed in Domain Entities. 
 class User {
 
     const ROLE_ADMIN = 1;
@@ -23,7 +24,7 @@ class User {
     )
     {}
 
-    public static function create(string $email, string $password, string $name, int $role = self::ROLE_USER): self {
+    public static function create(string $email, string $password, string $name, string $api_token, int $role = self::ROLE_USER): self {
         # Hash password and generate api_token
         # Use named parameters for expresiveness. 
         # Validate email: 
@@ -36,43 +37,46 @@ class User {
             email: $email, 
             password: hash('sha256', $password),
             name: $name, 
-            api_token: Token::generate()->getTokenString(),
+            api_token: $api_token,
             role: $role
         );
     }
-
 
     public static function fromDoctrineUser(DoctrineUser $doctrine_user): self {
         return self::create(
             email: $doctrine_user->getEmail(),
             password: $doctrine_user->getPassword(),
             name: $doctrine_user->getName(),
+            api_token: $doctrine_user->getApiToken(),
             role: $doctrine_user->getRole()
         ); 
     }
 
-    public function getEmail(): string
-    {
+    public function getEmail(): string {
         return $this->email;
     }
-    public function getPassword(): string
-    {
+    public function getPassword(): string {
         return $this->password;
     }
 
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function getApiToken(): string
-    {
+    public function getApiToken(): string {
         return $this->api_token;
     }
 
-    public function getRole(): int
-    {
+    public function getRole(): int {
         return $this->role;
+    }
+
+    public function isAdminRole(): bool {
+        return  $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isUserRole(): bool {
+        return  $this->role === self::ROLE_USER;
     }
 
 }

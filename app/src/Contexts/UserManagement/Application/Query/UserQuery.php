@@ -3,6 +3,7 @@
 namespace App\Contexts\UserManagement\Application\Query;
 
 use App\Contexts\UserManagement\Domain\UserRepositoryInterface;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class UserQuery
 {
@@ -14,6 +15,7 @@ class UserQuery
 
     public function getUser(string $email, string $password): ?UserDTO {
         $user = $this->userRepository->getUser(email: $email, password: $password);
+       
 
         if ($user === null) 
             return null;
@@ -21,9 +23,9 @@ class UserQuery
         return UserDTO::create(
             email: $user->getEmail(),
             password: $user->getPassword(),
-            api_token: $user->getApiToken(),
+            api_token: $user->getApiToken(), 
+            role: $user->getRole()
         ); 
-
     }
 
 }

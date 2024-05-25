@@ -3,6 +3,7 @@
 namespace App\Contexts\UserManagement\Infrastructure;
 
 use App\Contexts\UserManagement\Domain\UserRepositoryInterface;
+use App\Contexts\UserManagement\Domain\Token; 
 use App\Contexts\UserManagement\Domain\User as DomainUser;
 
 use App\Entity\User as DoctrineUser; 
@@ -23,9 +24,7 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
 
     public function __construct(private ManagerRegistry $managerRegistry){
         parent::__construct($managerRegistry, DoctrineUser::class);
-        
         $this->entityManager = $this->managerRegistry->getManagerForClass(DoctrineUser::class);
-
     }
 
     public function save(DomainUser $user): void {
@@ -41,6 +40,7 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
         $doctrineUser->setUpdatedAt(new \DateTimeImmutable());
 
         $this->entityManager->persist($doctrineUser);
+
         $this->entityManager->flush();
     }
 
@@ -64,10 +64,9 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
         return true;
     }
 
-    public function getUser(string $email, string $password): ?DomainUser
-    {
+    public function getUser(string $email=null, string $password): ?DomainUser
+    {   
         $hashed_password = hash('sha256', $password);
-
         $doctrine_user = $this->findOneBy(['email' => $email, 'password' => $hashed_password]);
 
         if ($doctrine_user === null) {
@@ -75,7 +74,26 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
         }
 
         return DomainUser::fromDoctrineUser($doctrine_user);
-        
+    }
+  
+
+    public function getUserByApiToken(string $token): ?DomainUser
+    {
+        $doctrine_user = $this->findOneBy(['api_token' => $token]);
+
+        if ($doctrine_user === null) {
+            return null;
+        }
+
+        return DomainUser::fromDoctrineUser($doctrine_user);
     }
 
+
+    public function refreshToken(string $token): void
+    {
+        $doctrine_user = $this->findOneBy(['api_token' => $token]);
+        $doctrine_user->setApiToken(Token::generate()->getTokenString());
+        $doctrine_user->setUpdatedAt(new \DateTimeImmutable());
+        $this->entityManager->flush();
+    }
 }

@@ -16,18 +16,18 @@ services:
       - ./app:/app
     ports:
       - "9000:9000"
-    
-  mysql:
-    container_name: mysql
-    image: mysql:latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=0010
-      - MYSQL_USER=app
-      - MYSQL_PASSWORD=0010
-      - MYSQL_DATABASE=sesamedb
-    volumes:
-      - mysqldata:/var/lib/mysql
-    ports:
-      - "3306:3306" 
-volumes:
-  mysqldata: {}
+#     
+#   mysql:
+#     container_name: mysql
+#     image: mysql:latest
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=0010
+#       - MYSQL_USER=app
+#       - MYSQL_PASSWORD=0010
+#       - MYSQL_DATABASE=sesamedb
+#     volumes:
+#       - mysqldata:/var/lib/mysql
+#     ports:
+#       - "3306:3306" 
+# volumes:
+#   mysqldata: {}

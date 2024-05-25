@@ -12,5 +12,11 @@ interface UserRepositoryInterface
 
     public function getUser(string $email, string $password): ?User;
 
+    public function getUserByApiToken(string $token): ?User;
+
+    public function refreshToken(string $email): void;
+
+
+
 }
 

@@ -47,7 +47,7 @@ class WorkEntry
         return $this->start_date;
     }
 
-    public function getEndDate(): string
+    public function getEndDate(): ?string
     {
         return $this->end_date;
     }

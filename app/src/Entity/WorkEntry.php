@@ -7,7 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: WorkEntryRepository::class)]
+use App\Contexts\WorkEntry\Infrastructure\WorkEntryRepositoryImpl; 
+
+#[ORM\Entity(repositoryClass: WorkEntryRepositoryImpl::class)]
 class WorkEntry
 {
     #[ORM\Id]

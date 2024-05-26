@@ -3,9 +3,10 @@
 namespace App\Events;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface; 
 
-#[AsMessageHandler('event.bus')]
-class EventHandler
+#[AsMessageHandler]
+class EventHandler 
 {   
     # We skip the service layer here. 
     # We don't need that layer of indirection because we dont want do nothing more than 

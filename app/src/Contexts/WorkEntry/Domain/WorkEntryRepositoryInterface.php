@@ -16,4 +16,6 @@ interface WorkEntryRepositoryInterface
 
     public function update(Uuid $id, ?string $start_date=null, ?string $end_date=null): void;
 
+    public function findById(Uuid $id): ?WorkEntry;
+
 }

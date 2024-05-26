@@ -14,12 +14,12 @@ class RegisterCommand {
     }
 
     public static function create(
-        Uuid $user_id,
+        string $user_id,
         String $start_date,
         ?String $end_date
     ): self
     {
-        return new self($user_id, $start_date, $end_date);
+        return new self(Uuid::fromString($user_id), $start_date, $end_date);
     }
 
     public function getUserId(): Uuid

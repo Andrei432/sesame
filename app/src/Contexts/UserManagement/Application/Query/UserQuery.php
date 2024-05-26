@@ -29,9 +29,13 @@ class UserQuery
     }
 
     public function getUserId(string $email): Uuid
-     {
+    {
         return $this->userRepository->getUserId(email: $email); 
     }
 
+    public function getUserIdByApiToken(string $token): Uuid
+    {
+        return $this->userRepository->getUserIdByApiToken(token: $token); 
+    }
 
 }

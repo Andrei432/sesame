@@ -8,9 +8,9 @@ class DeleteCommand {
     private function __construct(private Uuid $entry_id) {
     }
 
-    public static function create(Uuid $entry_id): static
+    public static function create(string $entry_id): static
     {
-        return new self($entry_id);
+        return new self(Uuid::fromString($entry_id));
     }
 
     public function getEntryId(): Uuid

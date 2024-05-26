@@ -20,6 +20,7 @@ interface UserRepositoryInterface
 
     public function getUserId(string $email): ?Uuid;
 
-
+    public function getUserIdByApiToken(string $token): ?Uuid;
+    
 }
 

@@ -3,22 +3,24 @@
 namespace App\Events;
 
 use Symfony\Component\Uid\Uuid;
+use Psr\Log\LoggerInterface;
 
 # Base class for all events. 
 class Event {
 
+    private string $action;
+
     # set by concrete classes. 
     private function __construct(
-        private string $action, 
         private ?Uuid $user_id = null,
         private ?Uuid $work_entry_id = null,
     )
-    {
-        $this->action = get_class($this); # The name of subclasses already provides a description. 
+    {   
+        $this->action = static::class; # class name provides a description.
     }
 
-    public static function create(?Uuid $user_id, ?Uuid $work_entry_id, string $action) {
-        return new static(action:$action, user_id:$user_id, work_entry_id:$work_entry_id);
+    public static function create(?Uuid $user_id=null, ?Uuid $work_entry_id=null) {
+        return new static(user_id:$user_id, work_entry_id:$work_entry_id);
     }
 
     public function getUserId(): ?Uuid {

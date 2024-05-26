@@ -103,4 +103,14 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
         $doctrine_user = $this->findOneBy(['email' => $email]);
         return $doctrine_user->getId();
     }
+
+    public function getUserIdByApiToken(string $token): ?Uuid
+    {
+        $doctrine_user = $this->findOneBy(['api_token' => $token]);
+
+        if ($doctrine_user === null) {
+            return null;
+        }
+        return $doctrine_user->getId();
+    }
 }

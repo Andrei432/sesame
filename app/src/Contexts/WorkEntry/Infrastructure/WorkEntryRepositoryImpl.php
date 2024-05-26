@@ -61,6 +61,16 @@ class WorkEntryRepositoryImpl extends ServiceEntityRepository implements WorkEnt
         $doctrineWorkEntry->setUpdatedAt( new \DateTimeImmutable() );
         $this->entityManager->flush();
     }
+
+    public function findById(Uuid $id): DomainWorkEntry {
+        $doctrineWorkEntry = $this->entityManager->getRepository(DoctrineWorkEntry::class)->find($id);
+        return DomainWorkEntry::create(
+            id: $doctrineWorkEntry->getId(),
+            user_id: $doctrineWorkEntry->getUserId(),
+            start_date: $doctrineWorkEntry->getStartDate(),
+            end_date: $doctrineWorkEntry->getEndDate()
+        );
+    }
 }
 
 

@@ -22,4 +22,13 @@ class WorkEntryQuery
             ); 
         }
     }
+
+    public function getWorkEntryById(string $entry_id): ?WorkEntryDTO {
+        $domainWorkEntry = $this->repository->findById(Uuid::fromString($entry_id));
+        return WorkEntryDTO::create(
+            id: $domainWorkEntry->getId(),
+            start_date: $domainWorkEntry->getStartDate(),
+            end_date: $domainWorkEntry->getEndDate()
+        ); 
+    }
 }

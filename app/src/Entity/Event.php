@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: EventRepository::class)]
+use App\Events\EventRepositoryImpl; 
+
+#[ORM\Entity(repositoryClass: EventRepositoryImpl::class)]
 class Event
 {
     #[ORM\Id]

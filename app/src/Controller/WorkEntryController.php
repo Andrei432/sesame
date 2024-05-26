@@ -50,6 +50,22 @@ class WorkEntryController extends AbstractController
         return $this->json($entries, JsonResponse::HTTP_OK);
     }
 
+
+   ##[Route('/workentry/{entry_id}', name: 'app_get_work_entry_by_id', methods: ['GET'])]
+   #public function getById(Request $request, WorkEntryQuery $query): JsonResponse
+   #{
+   #    $token = $request->headers->get('Authorization');
+   #    if (!$this->auth->login(api_token: $token)) {
+   #        return $this->json(['message' => 'Invalid token'], JsonResponse::HTTP_UNAUTHORIZED);
+   #    }   
+
+   #    print_r($request->get('entry_id'));
+
+   #    return $this->json($query->getWorkEntryById($request->get('entry_id')), JsonResponse::HTTP_OK);
+   #}
+
+
+
     #[Route('/workentry', name: 'app_create_work_entry', methods: ['POST'])]
     public function post(Request $request, UserQuery $userQuery): JsonResponse
     {   
@@ -68,20 +84,22 @@ class WorkEntryController extends AbstractController
 
         $this->messageBus->dispatch(RegisterCommand::create(
             user_id: $user_id,
-            start_date: $request->request->get('start_date'),
-            end_date: $request->request->get('end_date')
-        ));
+            start_date: $request->get('start_date'),
+            end_date: $request->get('end_date')
+        )); 
 
         return $this->json(["message" => "Work entry created"], JsonResponse::HTTP_CREATED);
     }
 
-    #[Route('/workentry/{entry_id}', name: 'app_update_work_entry', methods: ['PUT'])]
+    #[Route('/workentry/{entry_id}', name: 'app_update_work_entry', methods: ['POST'])]
     public function put(Request $request): JsonResponse
     {  
         $token = $request->headers->get('Authorization');
         if (!$this->auth->login(api_token: $token)) {
             return $this->json(['message' => 'Invalid token'], JsonResponse::HTTP_UNAUTHORIZED);
         }
+
+        print_r($request->request->all());
 
         $this->messageBus->dispatch(
             UpdateCommand::create(

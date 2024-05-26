@@ -11,6 +11,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Symfony\Component\Uid\Uuid;
+
 # DDD Concept: This repository implementation knows only about the objects form the domain in its context. 
 # Inputs and outputs are always Domain Entities. 
 
@@ -95,5 +97,10 @@ class UserRepositoryImpl extends ServiceEntityRepository implements UserReposito
         $doctrine_user->setApiToken(Token::generate()->getTokenString());
         $doctrine_user->setUpdatedAt(new \DateTimeImmutable());
         $this->entityManager->flush();
+    }
+
+    public function getUserId(string $email): Uuid {
+        $doctrine_user = $this->findOneBy(['email' => $email]);
+        return $doctrine_user->getId();
     }
 }

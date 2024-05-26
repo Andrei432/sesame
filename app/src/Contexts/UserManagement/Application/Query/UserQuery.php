@@ -3,7 +3,7 @@
 namespace App\Contexts\UserManagement\Application\Query;
 
 use App\Contexts\UserManagement\Domain\UserRepositoryInterface;
-use Symfony\Component\HttpKernel\Log\Logger;
+use Symfony\Component\Uid\Uuid;
 
 class UserQuery
 {
@@ -27,5 +27,11 @@ class UserQuery
             role: $user->getRole()
         ); 
     }
+
+    public function getUserId(string $email): Uuid
+     {
+        return $this->userRepository->getUserId(email: $email); 
+    }
+
 
 }

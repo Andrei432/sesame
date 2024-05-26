@@ -2,6 +2,8 @@
 
 namespace App\Contexts\UserManagement\Domain; 
 
+use Symfony\Component\Uid\Uuid;
+
 interface UserRepositoryInterface
 {
     public function save(User $user): void;
@@ -16,6 +18,7 @@ interface UserRepositoryInterface
 
     public function refreshToken(string $email): void;
 
+    public function getUserId(string $email): ?Uuid;
 
 
 }

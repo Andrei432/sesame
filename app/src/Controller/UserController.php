@@ -31,7 +31,12 @@ use App\Validation\User\Validator as UserValidator;
 class UserController extends AbstractController
 {   
     # Use property promotion to avoid constructror boilerplate. 
-    public function __construct(private MessageBusInterface $messageBus, private Auth $auth, private UserValidator $validator, private LoggerInterface $logger){}
+    public function __construct(
+        private MessageBusInterface $messageBus, 
+        private Auth $auth, 
+        private UserValidator $validator, 
+        private LoggerInterface $logger
+    ){}
 
     #[Route('/ping', name: 'app_ping', methods: ['GET'])]
     public function ping(): JsonResponse

@@ -3,12 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\WorkEntryRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
-
-
 
 #[ORM\Entity(repositoryClass: WorkEntryRepository::class)]
 class WorkEntry
@@ -22,20 +19,17 @@ class WorkEntry
     #[ORM\Column(type: 'uuid')]
     private ?Uuid $user_id = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $start_date = null;
+    #[ORM\Column(length: 255)]
+    private ?string $start_date = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $end_date = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $end_date = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updated_at = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deleted_at = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?Uuid
     {
@@ -54,24 +48,24 @@ class WorkEntry
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeImmutable
+    public function getStartDate(): ?string
     {
         return $this->start_date;
     }
 
-    public function setStartDate(\DateTimeImmutable $start_date): static
+    public function setStartDate(string $start_date): static
     {
         $this->start_date = $start_date;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?string
     {
         return $this->end_date;
     }
 
-    public function setEndDate(?\DateTimeInterface $end_date): static
+    public function setEndDate(?string $end_date): static
     {
         $this->end_date = $end_date;
 
@@ -90,26 +84,14 @@ class WorkEntry
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deleted_at;
-    }
-
-    public function setDeletedAt(?\DateTimeInterface $deleted_at): static
-    {
-        $this->deleted_at = $deleted_at;
 
         return $this;
     }

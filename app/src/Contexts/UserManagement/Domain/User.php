@@ -6,7 +6,7 @@ namespace App\Contexts\UserManagement\Domain;
 use App\Entity\User as DoctrineUser;
 
 use App\Contexts\UserManagement\Domain\Exception\InvalidEmailException;
-
+use Symfony\Component\Uid\Uuid;
 
 # Domain UserEntity. 
 # Basic logic like field validation is allowed in Domain Entities. 
@@ -51,6 +51,7 @@ class User {
             role: $doctrine_user->getRole()
         ); 
     }
+    
 
     public function getEmail(): string {
         return $this->email;
